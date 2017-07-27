@@ -4,7 +4,7 @@ import Immutable from 'seamless-immutable'
 /* ------------- Types and Action Creators ------------- */
 
 const { Types, Creators } = createActions({
-  jobsRequest: ['request'],
+  jobsRequest: ['page'],
   jobsSuccess: ['payload'],
   jobsFailure: null
 })
@@ -25,26 +25,26 @@ export const INITIAL_STATE = Immutable({
 /* ------------- Reducers ------------- */
 
 // request the data from an api
-export const request = (state, request) => {
-  if (request.page) {
-    return state.merge({ fetching: true, data: [], data_ids: [] })
-  } else {
+export const request = (state, page) => {
+  if (page > 1) {
     return state.merge({ fetching: true })
+  } else {
+    return state.merge({ fetching: true, data: [], data_ids: {} })
   }
 }
 
 
 // successful api lookup
-export const success = (state, action) => {
-  const { payload } = action
-  const data_ids = state.data_ids
-  const data = [...data, ...(payload.filter(job => {
-    if (data_ids.indexOf(job.id) === -1) {
-      data_ids.push(job.id)
+export const success = (state, { payload }) => {
+  const data_ids = state.data_ids || []
+  const filtered_payload = (payload.filter(job => {
+    if (!data_ids[job.id]) {
+      data_ids[job.id] = true
       return true
     }
     return false
-  }))]
+  }))
+  const data = [...state.data, ...filtered_payload]
   return state.merge({ fetching: false, error: null, data, data_ids })
 }
 

@@ -27,9 +27,13 @@ export const request = (state) =>
   state.merge({ fetching: true, data: null })
 
 // successful api lookup
-export const success = (state, action) => {
-  const { data } = action
-  return state.merge({ fetching: false, error: null, data })
+export const success = (state, { payload }) => {
+  const { access_token, expires_in } = payload
+  return state.merge({ fetching: false, error: null, data: {
+    access_token,
+    expires_in,
+    timeout: parseInt(Date.now()/1000) + expires_in
+  } })
 }
 
 // Something went wrong somewhere.

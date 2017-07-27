@@ -13,12 +13,13 @@
 import { call, put } from 'redux-saga/effects'
 import LoginActions from '../Redux/LoginRedux'
 
-const AUTH_URL = 'https://test.inploi.me/token'
-
-export function * getLogin (api, action) {
-  const { data } = action
+export function * getLogin (api, {username, password}) {
   // make the call to the api
-  const response = yield call(api.auth, data)
+
+  const response = yield call(api.postAuth, {
+    client_id: username,
+    client_secret: password
+  })
 
   // success?
   if (response.ok) {
