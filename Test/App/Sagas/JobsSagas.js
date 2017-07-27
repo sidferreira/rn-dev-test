@@ -16,7 +16,6 @@ export function * getJobs (api, { page }) {
   const { login } = yield select()
   const token = login && login.data && login.data.access_token ? login.data.access_token : ''
 
-  console.log('token', token)
   // make the call to the api
   const response = yield call(api.getJobs, { page, token })
 

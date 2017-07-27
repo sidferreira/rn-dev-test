@@ -25,11 +25,12 @@ export const INITIAL_STATE = Immutable({
 /* ------------- Reducers ------------- */
 
 // request the data from an api
-export const request = (state, page) => {
+export const request = (state, { page }) => {
+  console.log('page', page)
   if (page > 1) {
-    return state.merge({ fetching: true })
+    return state.merge({ fetching: true, page })
   } else {
-    return state.merge({ fetching: true, data: [], data_ids: {} })
+    return state.merge({ fetching: true, data: [], data_ids: {}, page })
   }
 }
 

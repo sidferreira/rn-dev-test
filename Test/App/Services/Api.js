@@ -35,7 +35,7 @@ const create = (baseURL = 'https://test.inploi.me/') => {
   // way at this level.
   //
 
-  const getJobs = ({page_number = 0, token}) => api.get('jobs' + (page_number > 1 ? '/' + page_number : ''), {token})
+  const getJobs = ({page = 0, token}) => api.get('jobs' + (page > 1 ? '/' + page : ''), {token})
   const postAuth = (params) => {
     const {client_id, client_secret} = params
     return api.post('token',

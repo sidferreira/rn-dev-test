@@ -15,18 +15,21 @@ import LoginActions from '../Redux/LoginRedux'
 
 export function * getLogin (api, {username, password}) {
   // make the call to the api
+  try {
+    const response = yield call(api.postAuth, {
+      client_id: username,
+      client_secret: password
+    })
 
-  const response = yield call(api.postAuth, {
-    client_id: username,
-    client_secret: password
-  })
-
-  // success?
-  if (response.ok) {
-    // You might need to change the response here - do this with a 'transform',
-    // located in ../Transforms/. Otherwise, just pass the data back from the api.
-    yield put(LoginActions.loginSuccess(response.data))
-  } else {
-    yield put(LoginActions.loginFailure())
+    // success?
+    if (response.ok) {
+      // You might need to change the response here - do this with a 'transform',
+      // located in ../Transforms/. Otherwise, just pass the data back from the api.
+        yield put(LoginActions.loginSuccess(response.data))
+    } else {
+      yield put(LoginActions.loginFailure())
+    }
+  } catch (e) {
+    console.log('error', e)
   }
 }

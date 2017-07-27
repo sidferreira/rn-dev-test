@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { ScrollView, Button, Text, KeyboardAvoidingView } from 'react-native'
+import { View, Button, Text, KeyboardAvoidingView } from 'react-native'
 import { connect } from 'react-redux'
 import { NavigationActions } from 'react-navigation'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
@@ -19,6 +19,7 @@ class LoginScreen extends Component {
         ]
       })
       this.props.navigation.dispatch(resetAction)
+      return false
     }
     return true
   }
@@ -29,14 +30,14 @@ class LoginScreen extends Component {
 //  style={styles.loginButton}
   render () {
     return (
-      <ScrollView style={styles.container}>
+      <View style={styles.container}>
         <KeyboardAvoidingView behavior='position'>
           <Button
             style={{flex: 1,marginTop: 100, width: 300, height: 100, backgroundColor: 'red'}}
             onPress={this._onPressLogin}
             title="Login" />
         </KeyboardAvoidingView>
-      </ScrollView>
+      </View>
     )
   }
 }
