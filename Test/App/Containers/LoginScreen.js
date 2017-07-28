@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Button, Text, TextInput, KeyboardAvoidingView, Platform } from 'react-native'
+import { View, Button, Text, TextInput, KeyboardAvoidingView, Platform, ActivityIndicator } from 'react-native'
 import { connect } from 'react-redux'
 import { NavigationActions } from 'react-navigation'
 import Icon from 'react-native-vector-icons/Ionicons'
@@ -37,14 +37,17 @@ class LoginScreen extends Component {
   }
 
   render () {
+    const { fetching } = this.props.login
     return (
       <View style={styles.container}>
         <KeyboardAvoidingView behavior='position'>
-          <View style={{marginLeft: 30, marginRight: 30}}>
+          <View style={{height: 150, width: 150, marginBottom: 30, marginTop: 100, backgroundColor: 'blue', borderRadius: 150, alignSelf: 'center'}} />
+          <View style={{flex: 0, marginLeft: 30, marginRight: 30}}>
             <View style={{borderBottomWidth: 1, flexDirection: 'row', paddingLeft: 10}}>
               <Icon name={ Platform.OS === 'ios' ? 'ios-person' : 'md-person'} size={30} />
               <TextInput
-                style={{height: 30, flex: 1, marginLeft: 20}}
+                style={{height: 40, flex: 1, marginLeft: 20}}
+                underlineColorAndroid='rgba(0,0,0,0)'
                 onChangeText={username => this.setState({username})}
                 placeholder="Username"
                 value={this.state.username} />
@@ -52,7 +55,8 @@ class LoginScreen extends Component {
             <View style={{borderBottomWidth: 1, flexDirection: 'row', paddingLeft: 10, marginTop: 20}}>
               <Icon name={ Platform.OS === 'ios' ? 'ios-key' : 'md-key'} size={30} />
               <TextInput
-                style={{height: 30, flex: 1, marginLeft: 20}}
+                style={{height: 40, flex: 1, marginLeft: 20}}
+                underlineColorAndroid='rgba(0,0,0,0)'
                 onChangeText={password => this.setState({password})}
                 placeholder="Username"
                 value={this.state.password} />
@@ -62,6 +66,7 @@ class LoginScreen extends Component {
                 onPress={this._onPressLogin}
                 title="Login" />
             </View>
+            {fetching && <View style={styles.indicator}><ActivityIndicator /></View>}
           </View>
         </KeyboardAvoidingView>
       </View>

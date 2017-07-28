@@ -37,7 +37,7 @@ class JobsScreen extends Component {
   _keyExtractor = (item, index) => item.id
 
   render () {
-    const { data, fetching } = this.props.jobs
+    const { data, noMore } = this.props.jobs
 
     return (
       <FlatList
@@ -47,7 +47,7 @@ class JobsScreen extends Component {
         onEndReachedThreshold={0.5}
         onEndReached={this._loadMore}
         keyExtractor={this._keyExtractor}
-        ListFooterComponent={<View>{(fetching || false) && <View style={styles.indicator}><ActivityIndicator /></View>}</View>}
+        ListFooterComponent={<View>{!noMore && <View style={styles.indicator}><ActivityIndicator /></View>}</View>}
         ItemSeparatorComponent={Separator}
       />
     )

@@ -20,7 +20,7 @@ const ApplicationStyles = {
     },
     container: {
       flex: 1,
-      paddingTop: Metrics.baseMargin,
+//      paddingTop: Metrics.baseMargin,
       backgroundColor: Colors.snow
     },
     section: {
@@ -44,6 +44,10 @@ const ApplicationStyles = {
       ...Fonts.style.h2,
       fontSize: 14,
       color: Colors.text
+    },
+    indicator: {
+      marginTop: 10,
+      marginBottom: 60
     }
   },
   darkLabelContainer: {

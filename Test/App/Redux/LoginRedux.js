@@ -30,7 +30,6 @@ export const request = (state) =>
 export const success = (state, { payload }) => {
   const { access_token, expires_in } = payload
   const timeout = parseInt(Date.now()/1000) + expires_in
-  console.log('access_token', access_token, expires_in)
   return state.merge({fetching: false, error: null, data: {
     access_token, expires_in, timeout }})
 }
