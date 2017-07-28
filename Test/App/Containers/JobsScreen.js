@@ -1,21 +1,26 @@
 import React, { Component } from 'react'
-import { FlatList, Text, View } from 'react-native'
+import { FlatList, Text, View, ActivityIndicator } from 'react-native'
 import { connect } from 'react-redux'
-// Add Actions - replace 'Your' with whatever your reducer is called :)
-// import YourActions from '../Redux/YourRedux'
-import JobsRedux from '../Redux/JobsRedux'
 
+import JobsRedux from '../Redux/JobsRedux'
 import Job from '../Components/Job'
-// Styles
+import Separator from '../Components/Separator'
 import styles from './Styles/JobsScreenStyle'
 
 class JobsScreen extends Component {
+  static navigationOptions = {
+    title: 'Our Jobs',
+    headerTintColor: 'black',
+  }
+
   componentDidMount() {
     this._firstLoad() //optional
   }
 
   _firstLoad = () => {
-    this.props.jobsRequest(1)
+    if (this.props && this.props.jobsRequest) {
+      this.props.jobsRequest(1)
+    }
   }
 
   _loadMore = () => {
@@ -26,38 +31,29 @@ class JobsScreen extends Component {
   }
 
   _renderItem = ({item}) => {
-    return <Job data={item} onPress={() => {}} />
+    return <Job key={item.id} data={item} onPress={() => {}} />
   }
 
-  _doRefresh = () => {
-    console.log('_doRefresh')
-  }
+  _keyExtractor = (item, index) => item.id
 
   render () {
     const { data, fetching } = this.props.jobs
 
     return (
-      <View style={styles.container}>
-        <FlatList
-          data={data || []}
-          renderItem={this._renderItem}
-          onEndReachedThreshold={0.2}
-          onEndReached={this._loadMore}
-        />
-      </View>
+      <FlatList
+        style={styles.container}
+        data={data || []}
+        renderItem={this._renderItem}
+        onEndReachedThreshold={0.5}
+        onEndReached={this._loadMore}
+        keyExtractor={this._keyExtractor}
+        ListFooterComponent={<View>{(fetching || false) && <View style={styles.indicator}><ActivityIndicator /></View>}</View>}
+        ItemSeparatorComponent={Separator}
+      />
     )
   }
 }
-/*
-<FlatList
-  data={data || []}
-  renderItem={this._renderItem}
-  onRefresh={this._firstLoad}
-  refreshing={fetching}
-  onEndReachedThreshold={0.2}
-  onEndReached={this._loadMore}
-/>
-*/
+//ItemSeparatorComponent={<View style={styles.separator} />}
 
 const mapStateToProps = (state) => {
   return {

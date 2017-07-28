@@ -1,30 +1,18 @@
 import React, { Component } from 'react'
-// import PropTypes from 'prop-types';
-import { View, Text, PixelRatio, Image } from 'react-native'
+import { View, Text, Image } from 'react-native'
 import styles from './Styles/JobStyle'
 
 export default class Job extends Component {
-  // // Prop type warnings
-  // static propTypes = {
-  //   someProperty: PropTypes.object,
-  //   someSetting: PropTypes.bool.isRequired,
-  // }
-  //
-  // // Defaults for props
-  // static defaultProps = {
-  //   someSetting: false
-  // }
-
   render () {
     const { data, onPress } = this.props
-    const imageSource = 'https://res.cloudinary.com/chris-mackie/image/upload/v1500966701/profile_12195-avatar.jpg'
+    const imageSource = `https://res.cloudinary.com/chris-mackie/image/upload/c_thumb/v${data.employer_img_v}/${data.employer_img}.jpg`
     return (
       <View style={styles.container}>
-        <View style={styles.card}>
-          <Image source={{uri: imageSource}}  style={styles.cardImage}/>
-          <View style={styles.verticalView}>
-            <Text key={data.id}>{data.role + ' @ ' + data.company}</Text>
-          </View>
+        <Image source={{uri: imageSource}}  style={styles.image}/>
+        <View style={styles.verticalView}>
+          <Text style={styles.textTitle}>{data.role}</Text>
+          <Text style={styles.textCompany}>{data.company}</Text>
+          <Text style={styles.textDescription} numberOfLines={4}>{data.full_description}</Text>
         </View>
       </View>
     )

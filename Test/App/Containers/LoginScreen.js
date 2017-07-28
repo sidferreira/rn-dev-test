@@ -1,15 +1,23 @@
 import React, { Component } from 'react'
-import { View, Button, Text, KeyboardAvoidingView } from 'react-native'
+import { View, Button, Text, TextInput, KeyboardAvoidingView, Platform } from 'react-native'
 import { connect } from 'react-redux'
 import { NavigationActions } from 'react-navigation'
-// Add Actions - replace 'Your' with whatever your reducer is called :)
-// import YourActions from '../Redux/YourRedux'
+import Icon from 'react-native-vector-icons/Ionicons'
+
 import LoginRedux from '../Redux/LoginRedux'
 
-// Styles
 import styles from './Styles/LoginScreenStyle'
 
 class LoginScreen extends Component {
+  static navigationOptions = {
+    header: null
+  }
+
+  state = {
+    username: 'sid@ferreiraz.com.br',
+    password: 'dk5j4uafcF9dabEIpjjbOPTP'
+  }
+
   shouldComponentUpdate(nextProps) {
     if (nextProps.login.data && nextProps.login.data.timeout > parseInt(Date.now()/1000)) {
       const resetAction = NavigationActions.reset({
@@ -25,17 +33,36 @@ class LoginScreen extends Component {
   }
 
   _onPressLogin = () => {
-    this.props.loginRequest('sid@ferreiraz.com.br', 'dk5j4uafcF9dabEIpjjbOPTP')
+    this.props.loginRequest(this.state.username, this.state.password)
   }
-//  style={styles.loginButton}
+
   render () {
     return (
       <View style={styles.container}>
         <KeyboardAvoidingView behavior='position'>
-          <Button
-            style={{flex: 1,marginTop: 100, width: 300, height: 100, backgroundColor: 'red'}}
-            onPress={this._onPressLogin}
-            title="Login" />
+          <View style={{marginLeft: 30, marginRight: 30}}>
+            <View style={{borderBottomWidth: 1, flexDirection: 'row', paddingLeft: 10}}>
+              <Icon name={ Platform.OS === 'ios' ? 'ios-person' : 'md-person'} size={30} />
+              <TextInput
+                style={{height: 30, flex: 1, marginLeft: 20}}
+                onChangeText={username => this.setState({username})}
+                placeholder="Username"
+                value={this.state.username} />
+            </View>
+            <View style={{borderBottomWidth: 1, flexDirection: 'row', paddingLeft: 10, marginTop: 20}}>
+              <Icon name={ Platform.OS === 'ios' ? 'ios-key' : 'md-key'} size={30} />
+              <TextInput
+                style={{height: 30, flex: 1, marginLeft: 20}}
+                onChangeText={password => this.setState({password})}
+                placeholder="Username"
+                value={this.state.password} />
+            </View>
+            <View style={{marginTop: 20}}>
+              <Button
+                onPress={this._onPressLogin}
+                title="Login" />
+            </View>
+          </View>
         </KeyboardAvoidingView>
       </View>
     )

@@ -11,9 +11,9 @@ class LaunchScreen extends Component {
 
   componentWillMount() {
     let routeName = 'LoginScreen'
-    if (this.props.login.data && this.props.login.data.timeout > parseInt(Date.now()/1000)) {
+/*    if (this.props.login.data && this.props.login.data.timeout > parseInt(Date.now()/1000)) {
       routeName = 'JobsScreen'
-    }
+    }*/
     const resetAction = NavigationActions.reset({
       index: 0,
       actions: [
